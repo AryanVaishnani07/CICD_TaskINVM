@@ -3,24 +3,24 @@ name: Deploy to Ubuntu VM
 on:
   push:
     branches:
-      - main  # trigger on push to main branch
+      - main   # change to your branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.8.1
+      uses: webfactory/ssh-agent@v0.9.1   # latest working version
       with:
         ssh-private-key: ${{ secrets.VM_SSH_KEY }}
 
-    - name: Connect to VM and create hello.txt
+    - name: Connect to VM and create file
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
           echo "Hello Aryan" > hello.txt
-          echo "File hello.txt created successfully!"
+          echo "✔ hello.txt created with content!"
         EOF
