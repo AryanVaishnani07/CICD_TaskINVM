@@ -1,0 +1,28 @@
+name: Deploy hello.txt on Self-Hosted Runner
+
+on:
+  push:
+    branches:
+      - main  # Trigger workflow on push to main branch
+
+jobs:
+  deploy:
+    runs-on: self-hosted  # Use your self-hosted runner
+
+    steps:
+    # 1️⃣ Checkout the repository
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # 2️⃣ Create hello.txt in runner home
+    - name: Create hello.txt in runner home
+      run: |
+        FILE_PATH="$HOME/hello.txt"
+        echo "Hello Aryan" > $FILE_PATH
+        echo "✔ hello.txt created successfully at $FILE_PATH"
+
+    # 3️⃣ Show the file content to verify
+    - name: Show file content
+      run: |
+        echo "Contents of hello.txt:"
+        cat $HOME/hello.txt
