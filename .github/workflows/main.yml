@@ -1,0 +1,29 @@
+name: Deploy to VM locally
+
+on:
+  push:
+    branches:
+      - main   # trigger workflow on push to main branch
+
+jobs:
+  deploy:
+    runs-on: self-hosted  # use your self-hosted runner
+
+    steps:
+    # 1️⃣ Checkout the repository
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # 2️⃣ Create hello.txt directly on VM
+    - name: Create hello.txt on VM
+      run: |
+        # Replace this path with the correct home directory of your VM user
+        FILE_PATH="/home/ubuntu1/hello.txt"
+
+        echo "Hello Aryan" > $FILE_PATH
+        echo "✔ hello.txt created successfully at $FILE_PATH"
+
+    # 3️⃣ Optional: show the file content
+    - name: Show hello.txt content
+      run: |
+        cat /home/ubuntu1/hello.txt
